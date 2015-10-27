@@ -8,16 +8,16 @@ if ( isset($_GET['addtask']) ) {
 	$errores = [];
 
 	if ( $tarea == "" ) {
-		$errores[] = 'Debes indicar un texto para cada tarea.';
+		$errores['texto'] = 'Debes indicar un texto para cada tarea.';
 	}
 
 	if( $nivel < 1 || $nivel > 5) {
-		$errores[] = 'Debes indicar un nivel con cada tarea.';
+		$errores['nivel'] = 'Debes indicar un nivel con cada tarea.';
 	}
 
 	if ( empty($errores) ) {
 		try{
-			$sql = "INSERT INTO tareas (tarea, nivel) VALUES (:tarea, :nivel)";
+			$sql = "INSERT INTO tasks (task, level) VALUES (:tarea, :nivel)";
 			$ps = $pdo->prepare($sql);
 			$ps->bindValue(':tarea', $tarea);
 			$ps->bindValue(':nivel', $nivel);
@@ -31,13 +31,50 @@ if ( isset($_GET['addtask']) ) {
 	
 }
 
+if ( isset($_GET['completetask']) ) {
+	$idtask = $_POST['idtask'];
+
+	if ( is_numeric($idtask) ) {
+		try {
+			$sql = "UPDATE tasks SET doneat = NOW() WHERE id = :idtask";
+			$ps = $pdo->prepare($sql);
+			$ps->bindValue(':idtask', $idtask);
+			$ps->execute();
+		} catch (PDOException $e) {
+			echo "Error";
+			exit();
+		}
+	}
+	
+	header('Location: .');
+	exit();
+}
+
+if ( isset($_GET['undotask']) ) {
+	$idtask = $_POST['idtask'];
+	if ( is_numeric($idtask) ) {
+		try {
+			$sql = "UPDATE tasks SET doneat = NULL WHERE id = :idtask";
+			$ps = $pdo->prepare($sql);
+			$ps->bindValue(':idtask', $idtask);
+			$ps->execute();
+		} catch (PDOException $e) {
+			echo "Error";
+			exit();
+		}
+	}
+	
+	header('Location: .');
+	exit();
+}
+
 if ( isset($_GET['deletetask']) )
 {
 	$idtask = $_POST['idtask'];
 
 	if ( is_numeric($idtask) ) {
 		try {
-			$sql = "DELETE FROM tareas WHERE id = :idtask";
+			$sql = "UPDATE tasks SET deletedat = NOW() WHERE id = :idtask";
 			$ps = $pdo->prepare($sql);
 			$ps->bindValue(':idtask', $idtask);
 			$ps->execute();
@@ -52,15 +89,15 @@ if ( isset($_GET['deletetask']) )
 }
 
 if ( isset($_GET['tareaasc']) ) {
-	$sql = 'SELECT id, tarea, nivel FROM tareas ORDER BY tarea ASC';
+	$sql = 'SELECT id, task, level FROM tasks ORDER BY tarea ASC';
 }elseif ( isset($_GET['tareadesc']) ) {
-	$sql = 'SELECT id, tarea, nivel FROM tareas ORDER BY tarea DESC';
+	$sql = 'SELECT id, task, level FROM tasks ORDER BY tarea DESC';
 }elseif ( isset($_GET['nivelasc']) ) {
-	$sql = 'SELECT id, tarea, nivel FROM tareas ORDER BY nivel ASC';
+	$sql = 'SELECT id, task, level FROM tasks ORDER BY nivel ASC';
 }elseif ( isset($_GET['niveldesc']) ) {
-	$sql = 'SELECT id, tarea, nivel FROM tareas ORDER BY nivel DESC';
+	$sql = 'SELECT id, task, level FROM tasks ORDER BY nivel DESC';
 }else{
-	$sql = 'SELECT id,tarea,nivel FROM tareas ORDER BY nivel DESC, tarea ASC';
+	$sql = 'SELECT id, task, level FROM tasks WHERE doneat IS NULL AND deletedat IS NULL ORDER BY level DESC, task ASC';
 }
 
 try{
@@ -74,4 +111,17 @@ while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
 	$datos[] = $row;
 }
 
+
+// completadas
+try{
+	$sql = 'SELECT id,task, level FROM tasks WHERE doneat IS NOT NULL AND deletedat IS NULL ORDER BY doneat DESC LIMIT 20';
+	$ps = $pdo->prepare($sql);
+	$ps->execute();
+}catch(PDOException $e) {
+	die("No se ha podido extraer información de la base de datos:". $e->getMessage());
+}
+
+while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
+	$completadas[] = $row;
+}
 require_once 'view.html.php';

@@ -8,10 +8,11 @@
 		h1 a:hover {
 			text-decoration: none;
 		}
-		.deletetask {
+		.listicon {
 			text-align: right;
+			width: 20px;
 		}
-		.deletetaskbutton {
+		.listiconbutton {
 			margin: 0px;
 			padding: 0px;
 		}
@@ -65,7 +66,7 @@
 					<tbody>
 						<?php if ( !empty($datos) ): ?>
 							<?php foreach($datos as $dato):
-								switch ($dato['nivel']) {
+								switch ($dato['level']) {
 									case '1':
 										$colorTarea = 'class="active"';
 										break;
@@ -87,12 +88,18 @@
 								}
 							?>
 							<tr <?=$colorTarea?>>
-								<th><?=$dato['tarea']?></th>
+								<th><?=$dato['task']?></th>
 								<!-- <th><span class="glyphicon glyphicon-ok"></span></th> -->
-								<th class="deletetask">
+								<th class="listicon">
+									<form action="?completetask" method="post">
+										<input type="hidden" name="idtask" value="<?=$dato['id']?>">
+										<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-saved"></i></button>
+									</form>
+								</th>
+								<th class="listicon">
 									<form action="?deletetask" method="post">
 										<input type="hidden" name="idtask" value="<?=$dato['id']?>">
-										<button type="submit" class="btn btn-link btn-sm deletetaskbutton"><i class="glyphicon glyphicon-trash"></i></button>
+										<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-trash"></i></button>
 									</form>
 								</th>
 							</tr>
@@ -105,16 +112,16 @@
 				</table>
 				<form action="?addtask" method="post">
 					<div class="form-group col-xs-12 col-lg-8">
-					    <input type="text" class="form-control col-lg-8" name="tarea" placeholder="Introducir Tarea">
+					    <input type="text" class="form-control col-lg-8" name="tarea" placeholder="Introducir Tarea" value="<?php if (isset($tarea)) echo $tarea; ?>">
 					</div>
 					<div class="form-group col-xs-12 col-lg-2">
 					    <select class="form-control" name="nivel">
 					      <option>Nivel</option>
-						  <option value="1">1</option>
-						  <option value="2">2</option>
-						  <option value="3">3</option>
-						  <option value="4">4</option>
-						  <option value="5">5</option>
+						  <option value="1" <?php if ( $nivel == 1) echo 'selected'; ?>>1</option>
+						  <option value="2" <?php if ( $nivel == 2) echo 'selected'; ?>>2</option>
+						  <option value="3" <?php if ( $nivel == 3) echo 'selected'; ?>>3</option>
+						  <option value="4" <?php if ( $nivel == 4) echo 'selected'; ?>>4</option>
+						  <option value="5" <?php if ( $nivel == 5) echo 'selected'; ?>>5</option>
 						</select>
 					</div>
 					<div class="form-group col-xs-12 col-lg-2">
@@ -136,6 +143,56 @@
 			</div>
 			<?php endif; ?>
 			</div>
+			</div>
+
+			<div class="col-lg-offset-3 col-lg-6">
+				<?php if ( !empty($completadas) ): ?>
+				<table class="table table-striped">
+					<tbody>
+							<?php foreach($completadas as $completada):
+								switch ($completada['level']) {
+									case '1':
+										$colorTarea = 'class="active"';
+										break;
+									case '2':
+										$colorTarea = 'class="success"';
+										break;
+									case '3':
+										$colorTarea = 'class="info"';
+										break;
+									case '4':
+										$colorTarea = 'class="warning"';
+										break;
+									case '5':
+										$colorTarea = 'class="danger"';
+										break;
+									default:
+										$colorTarea = 'class=""';
+										break;
+								}
+							?>
+							<tr <?=$colorTarea?>>
+								<th><?=$completada['task']?></th>
+								<!-- <th><span class="glyphicon glyphicon-ok"></span></th> -->
+								<th class="listicon">
+									<form action="?undotask" method="post">
+										<input type="hidden" name="idtask" value="<?=$completada['id']?>">
+										<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-open"></i></button>
+									</form>
+								</th>
+								<th class="listicon">
+									<form action="?deletetask" method="post">
+										<input type="hidden" name="idtask" value="<?=$completada['id']?>">
+										<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-trash"></i></button>
+									</form>
+								</th>
+							</tr>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<h2>No existen tareas completadas</h2>
+						<?php endif; ?>
+					</tbody>
+				</table>
 			</div>
 		</div>
 
