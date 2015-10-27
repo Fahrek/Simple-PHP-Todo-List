@@ -1,6 +1,6 @@
 <?php 
 
-require_once 'datadb.php';
+require_once('app/datadb.php');
 
 try{
 	$pdo = new PDO('mysql:host='.$host.';dbname='.$db, $user, $pass);

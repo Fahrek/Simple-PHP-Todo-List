@@ -1,5 +1,5 @@
 <?php 
-
+require_once 'app/info.php';
 require_once 'db/connectdb.php';
 
 if ( isset($_GET['addtask']) ) {

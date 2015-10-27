@@ -5,6 +5,9 @@
 	<title>Mi lista de tareas</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css">
 	<style>
+		h1 a:hover {
+			text-decoration: none;
+		}
 		.deletetask {
 			text-align: right;
 		}
@@ -30,7 +33,7 @@
 			<div class="col-lg-offset-3 col-lg-6">
 				<div class="row">
 					<div class="col-lg-8">
-						<h1>Mis Tareas</h1>
+						<h1><a href="<?=$base_url?>">Mis Tareas</a></h1>
 					</div>
 					<div class="col-lg-4 orderbuttons">
 						<div class="btn-group" role="group" aria-label="order">
