@@ -124,4 +124,17 @@ try{
 while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
 	$completadas[] = $row;
 }
+
+// eliminadas
+try{
+	$sql = 'SELECT id,task, level FROM tasks WHERE deletedat IS NOT NULL ORDER BY doneat DESC LIMIT 20';
+	$ps = $pdo->prepare($sql);
+	$ps->execute();
+}catch(PDOException $e) {
+	die("No se ha podido extraer información de la base de datos:". $e->getMessage());
+}
+
+while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
+	$eliminadas[] = $row;
+}
 require_once 'view.html.php';

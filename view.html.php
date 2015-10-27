@@ -26,6 +26,10 @@
 		.orderbuttons {
 			margin-top: 25px;
 		}
+
+		.footer {
+			text-align: right;
+		}
 	</style>
 </head>
 <body>
@@ -36,6 +40,7 @@
 					<div class="col-lg-8">
 						<h1><a href="<?=$base_url?>">Mis Tareas</a></h1>
 					</div>
+					<?php if( !empty($datos) && count($datos)>1 ): ?>
 					<div class="col-lg-4 orderbuttons">
 						<div class="btn-group" role="group" aria-label="order">
 							<form action="?tareaasc" method="post" class="orderbutton">
@@ -60,6 +65,7 @@
 							</form>
 						</div>
 					</div>
+					<?php endif; ?>
 				</div>
 				
 				<table class="table table-striped">
@@ -117,11 +123,11 @@
 					<div class="form-group col-xs-12 col-lg-2">
 					    <select class="form-control" name="nivel">
 					      <option>Nivel</option>
-						  <option value="1" <?php if ( $nivel == 1) echo 'selected'; ?>>1</option>
-						  <option value="2" <?php if ( $nivel == 2) echo 'selected'; ?>>2</option>
-						  <option value="3" <?php if ( $nivel == 3) echo 'selected'; ?>>3</option>
-						  <option value="4" <?php if ( $nivel == 4) echo 'selected'; ?>>4</option>
-						  <option value="5" <?php if ( $nivel == 5) echo 'selected'; ?>>5</option>
+						  <option value="1" <?php if ( isset($nivel) && $nivel == 1) echo 'selected'; ?>>1</option>
+						  <option value="2" <?php if ( isset($nivel) && $nivel == 2) echo 'selected'; ?>>2</option>
+						  <option value="3" <?php if ( isset($nivel) && $nivel == 3) echo 'selected'; ?>>3</option>
+						  <option value="4" <?php if ( isset($nivel) && $nivel == 4) echo 'selected'; ?>>4</option>
+						  <option value="5" <?php if ( isset($nivel) && $nivel == 5) echo 'selected'; ?>>5</option>
 						</select>
 					</div>
 					<div class="form-group col-xs-12 col-lg-2">
@@ -188,14 +194,23 @@
 								</th>
 							</tr>
 							<?php endforeach; ?>
-						<?php else: ?>
-							<h2>No existen tareas completadas</h2>
-						<?php endif; ?>
+						
 					</tbody>
 				</table>
+					
+				<?php else: ?>
+					<h2>No existen tareas completadas</h2>
+				<?php endif; ?>
 			</div>
-		</div>
-
+			<div class="col-lg-offset-3 col-lg-6 footer">
+				<?php if(isset($completadas) && count($completadas)>1): ?>
+					<a class="btn btn-default" href="#" role="button">Completadas</a>
+				<?php endif; ?>
+				<?php if(isset($eliminadas)): ?>
+					<a class="btn btn-default" href="<?=$base_url?>/eliminadas" role="button">Eliminadas</a>
+				</div>
+				<?php endif; ?>
+			</div>
 	</div>
 </body>
 </html>
