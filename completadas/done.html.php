@@ -39,11 +39,11 @@
 				<div class="row">
 					<div class="col-lg-8">
 						<h1><a href="<?=$base_url?>">Mis Tareas</a></h1>
-						<h2>Tareas eliminadas</h2>
+						<h2>Tareas completadas</h2>
 					</div>
 				</div>
 
-				<?php if ( !empty($eliminadas) ): ?>
+				<?php if ( !empty($completadas) ): ?>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -54,8 +54,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($eliminadas as $eliminada):
-							switch ($eliminada['level']) {
+						<?php foreach($completadas as $completada):
+							switch ($completada['level']) {
 								case '1':
 									$colorTarea = 'class="active"';
 									break;
@@ -77,10 +77,10 @@
 							}
 						?>
 						<tr <?=$colorTarea?>>
-							<th><?=$eliminada['task']?></th>
-							<th><?=$eliminada['createdat']?></th>
-							<th><?=$eliminada['doneat']?></th>
-							<th><?=$eliminada['deletedat']?></th>
+							<th><?=$completada['task']?></th>
+							<th><?=$completada['createdat']?></th>
+							<th><?=$completada['doneat']?></th>
+							<th><?=$completada['deletedat']?></th>
 							<!-- <th class="listicon">
 								<form action="?completetask" method="post">
 									<input type="hidden" name="idtask" value="<?=$dato['id']?>">
@@ -89,14 +89,14 @@
 							</th>  -->
 							<th class="listicon">
 								<form action="?deletetask" method="post">
-									<input type="hidden" name="idtask" value="<?=$eliminada['id']?>">
+									<input type="hidden" name="idtask" value="<?=$completada['id']?>">
 									<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-trash"></i></button>
 								</form>
 							</th>
 						</tr>
 						<?php endforeach; ?>
 						<?php else: ?>
-							<h2>No existen tareas eliminadas</h2>
+							<h2>No existen tareas completadas</h2>
 							<p>Cuando borres tus tareas pendientes o acabadas aparecerán en esta lista.</p>
 						<?php endif; ?>
 					</tbody>

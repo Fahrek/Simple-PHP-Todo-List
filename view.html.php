@@ -155,7 +155,9 @@
 				<?php if ( !empty($completadas) ): ?>
 				<table class="table table-striped">
 					<tbody>
+							<?php $i = 0; ?>
 							<?php foreach($completadas as $completada):
+									$i++;
 								switch ($completada['level']) {
 									case '1':
 										$colorTarea = 'class="active"';
@@ -177,6 +179,9 @@
 										break;
 								}
 							?>
+							<?php if ($i<6): ?>
+								
+							
 							<tr <?=$colorTarea?>>
 								<th><?=$completada['task']?></th>
 								<!-- <th><span class="glyphicon glyphicon-ok"></span></th> -->
@@ -193,6 +198,9 @@
 									</form>
 								</th>
 							</tr>
+							<?php else: ?>
+							<?php break; ?>
+							<?php endif ?>
 							<?php endforeach; ?>
 						
 					</tbody>
@@ -203,8 +211,8 @@
 				<?php endif; ?>
 			</div>
 			<div class="col-lg-offset-3 col-lg-6 footer">
-				<?php if(isset($completadas) && count($completadas)>1): ?>
-					<a class="btn btn-default" href="#" role="button">Completadas</a>
+				<?php if(isset($completadas) && count($completadas)>5): ?>
+					<a class="btn btn-default" href="<?=$base_url?>/completadas" role="button">Completadas</a>
 				<?php endif; ?>
 				<?php if(isset($eliminadas)): ?>
 					<a class="btn btn-default" href="<?=$base_url?>/eliminadas" role="button">Eliminadas</a>

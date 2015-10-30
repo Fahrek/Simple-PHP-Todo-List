@@ -89,13 +89,13 @@ if ( isset($_GET['deletetask']) )
 }
 
 if ( isset($_GET['tareaasc']) ) {
-	$sql = 'SELECT id, task, level FROM tasks ORDER BY tarea ASC';
+	$sql = 'SELECT id, task, level FROM tasks WHERE doneat IS NULL AND deletedat IS NULL ORDER BY task ASC';
 }elseif ( isset($_GET['tareadesc']) ) {
-	$sql = 'SELECT id, task, level FROM tasks ORDER BY tarea DESC';
+	$sql = 'SELECT id, task, level FROM tasks WHERE doneat IS NULL AND deletedat IS NULL ORDER BY task DESC';
 }elseif ( isset($_GET['nivelasc']) ) {
-	$sql = 'SELECT id, task, level FROM tasks ORDER BY nivel ASC';
+	$sql = 'SELECT id, task, level FROM tasks WHERE doneat IS NULL AND deletedat IS NULL ORDER BY level ASC';
 }elseif ( isset($_GET['niveldesc']) ) {
-	$sql = 'SELECT id, task, level FROM tasks ORDER BY nivel DESC';
+	$sql = 'SELECT id, task, level FROM tasks WHERE doneat IS NULL AND deletedat IS NULL ORDER BY level DESC';
 }else{
 	$sql = 'SELECT id, task, level FROM tasks WHERE doneat IS NULL AND deletedat IS NULL ORDER BY level DESC, task ASC';
 }
@@ -114,7 +114,7 @@ while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
 
 // completadas
 try{
-	$sql = 'SELECT id,task, level FROM tasks WHERE doneat IS NOT NULL AND deletedat IS NULL ORDER BY doneat DESC LIMIT 20';
+	$sql = 'SELECT id,task, level FROM tasks WHERE doneat IS NOT NULL AND deletedat IS NULL ORDER BY doneat DESC';
 	$ps = $pdo->prepare($sql);
 	$ps->execute();
 }catch(PDOException $e) {
@@ -127,7 +127,7 @@ while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
 
 // eliminadas
 try{
-	$sql = 'SELECT id,task, level FROM tasks WHERE deletedat IS NOT NULL ORDER BY doneat DESC LIMIT 20';
+	$sql = 'SELECT id,task, level FROM tasks WHERE deletedat IS NOT NULL ORDER BY doneat DESC LIMIT 5';
 	$ps = $pdo->prepare($sql);
 	$ps->execute();
 }catch(PDOException $e) {

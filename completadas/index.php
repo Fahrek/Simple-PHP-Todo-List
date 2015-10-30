@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 require_once(dirname(dirname(__FILE__)).'/app/info.php');
 require_once(__ROOT__.'/db/connectdb.php');
 
@@ -22,9 +23,9 @@ if ( isset($_GET['deletetask']) )
 	exit();
 }
 
-// eliminadas
+// completadas
 try{
-	$sql = 'SELECT * FROM tasks WHERE deletedat IS NOT NULL ORDER BY deletedat';
+	$sql = 'SELECT * FROM tasks WHERE doneat IS NOT NULL ORDER BY deletedat';
 	$ps = $pdo->prepare($sql);
 	$ps->execute();
 }catch(PDOException $e) {
@@ -32,7 +33,7 @@ try{
 }
 
 while ($row = $ps->fetch(PDO::FETCH_ASSOC) ) {
-	$eliminadas[] = $row;
+	$completadas[] = $row;
 }
 
-require_once 'deleted.html.php';
+require_once 'done.html.php';
