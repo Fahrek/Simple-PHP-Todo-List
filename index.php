@@ -68,8 +68,7 @@ if ( isset($_GET['undotask']) ) {
 	exit();
 }
 
-if ( isset($_GET['deletetask']) )
-{
+if ( isset($_GET['deletetask']) ){
 	$idtask = $_POST['idtask'];
 
 	if ( is_numeric($idtask) ) {

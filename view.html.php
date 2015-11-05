@@ -97,6 +97,12 @@
 								<th><?=$dato['task']?></th>
 								<!-- <th><span class="glyphicon glyphicon-ok"></span></th> -->
 								<th class="listicon">
+									<form action="<?=$base_url?>/editar/" method="post">
+										<input type="hidden" name="idtask" value="<?=$dato['id']?>">
+										<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-pencil"></i></button>
+									</form>
+								</th>
+								<th class="listicon">
 									<form action="?completetask" method="post">
 										<input type="hidden" name="idtask" value="<?=$dato['id']?>">
 										<button type="submit" class="btn btn-link btn-sm listiconbutton"><i class="glyphicon glyphicon-saved"></i></button>
